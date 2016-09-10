@@ -21,6 +21,10 @@
                 {% set c = 0 %}
             {% endif %}
 
+            {% if c > count %}
+                {% set c = 0 %}
+            {% endif %}
+
             {% for i in range(c, (c+500), 50) %}
                 <li><a href="{{ path('symofny_log_view', {start: i + c}) }}">{{ loop.index + c }}</a></li>
             {% endfor %}
