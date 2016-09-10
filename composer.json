@@ -1,5 +1,5 @@
 {
-    "name": "jeetendra/symfony-log-viewer",
+    "name": "jeetendra/symfony-log-viewer-bundle",
     "type": "symfony-bundle",
     "license": "proprietary",
     "authors": [
