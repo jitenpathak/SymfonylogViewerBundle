@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Log Viewer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container-fluid">
+    <h2>Log Viewer</h2>
+    <p>Total count: {{ count }}</p>
+    <ul class="pagination pull-right" style="margin:0px;padding:0px;margin-bottom:-5em;">
+        {% if count > 0 %}
+            {% for i in range(1, count, 10) %}
+                <li><a href="{{ path('symofny_log_view', {start: i}) }}">{{ loop.index }}</a></li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Date Time</th>
+            <th>Channel</th>
+            <th>Level</th>
+            <th >Message</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for log in logs %}
+            {% set css_class = log.level in ['CRITICAL', 'ERROR', 'ALERT', 'EMERGENCY'] ? 'danger' : log.level in ['NOTICE', 'WARNING'] ? 'warning' : log.level in ['INFO'] ? 'info' %}
+            <tr class="{{ css_class }}">
+                <td style="width: 12em;">{{ log.datetime }}</td>
+                <td style="width: 9em;">{{ log.channel }}</td>
+                <td style="width: 3em;">{{ log.level }}</td>
+                <td class="code" style="width: 55em;">{{ log.message }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

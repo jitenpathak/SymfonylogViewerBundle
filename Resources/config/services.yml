@@ -1,0 +1,4 @@
+services:
+    symfonylog_viewer.parser_instance:
+        class: Jeetendra\SymfonyLogViewerBundle\Helper\Factory\LogFactory
+
