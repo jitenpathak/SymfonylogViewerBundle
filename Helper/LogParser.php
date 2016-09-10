@@ -3,24 +3,21 @@
  * Created by PhpStorm.
  * User: jasmith
  * Date: 9/9/2016
- * Time: 2:00 PM
+ * Time: 2:00 PM.
  */
 
 namespace Jeetendra\SymfonyLogViewerBundle\Helper;
-
-
-use MyProject\Proxies\__CG__\OtherProject\Proxies\__CG__\stdClass;
 
 class LogParser implements ParserInterface
 {
     protected $line;
 
     /**
-     * Parses one single log line
+     * Parses one single log line.
      */
     public function parseLine($line)
     {
-        if(!$line) {
+        if (!$line) {
             throw new \Exception('string can not be empty');
         }
 
@@ -44,13 +41,13 @@ class LogParser implements ParserInterface
     {
         $chanel_level = $this->getChannelLevel();
 
-        if(!$chanel_level) {
+        if (!$chanel_level) {
             return;
         }
 
         $data = explode('.', $chanel_level);
 
-        if(array_key_exists(1, $data)) {
+        if (array_key_exists(1, $data)) {
             return $data[1];
         }
 
@@ -61,13 +58,13 @@ class LogParser implements ParserInterface
     {
         $chanel_level = $this->getChannelLevel();
 
-        if(!$chanel_level) {
+        if (!$chanel_level) {
             return;
         }
 
         $data = explode('.', $chanel_level);
 
-        if(array_key_exists(0, $data)) {
+        if (array_key_exists(0, $data)) {
             return $data[0];
         }
 
@@ -83,9 +80,9 @@ class LogParser implements ParserInterface
     {
         $data = substr($this->line, 22);
 
-        $data = explode(':', $data );
+        $data = explode(':', $data);
 
-        if(array_key_exists(0, $data)) {
+        if (array_key_exists(0, $data)) {
             return $data[0];
         }
 

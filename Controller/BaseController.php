@@ -14,22 +14,19 @@ class BaseController extends Controller
 
         $count = $this->getTotalCount();
 
-
-        for($i = $offset; $i <= ($limit + $offset); $i++) {
-
-            if($count < $i) {
+        for ($i = $offset; $i <= ($limit + $offset); ++$i) {
+            if ($count < $i) {
                 break;
             }
 
-            if($line = $this->getLine($i)) {
+            if ($line = $this->getLine($i)) {
                 $logs[] = $parser->parseLine($line);
             }
-
         }
 
         return array(
             'count' => $count,
-            'logs' => $logs
+            'logs' => $logs,
         );
     }
 
@@ -46,31 +43,31 @@ class BaseController extends Controller
 
         $file = $this->getLogFile();
 
-        if(!$file) {
+        if (!$file) {
             return $count;
         }
 
-        $fp = fopen( $file, 'r');
+        $fp = fopen($file, 'r');
 
-        while( !feof( $fp)) {
-            fgets( $fp);
-            $count++;
+        while (!feof($fp)) {
+            fgets($fp);
+            ++$count;
         }
 
-        fclose( $fp);
+        fclose($fp);
 
         return $count;
     }
 
     private function getLine($line_number)
     {
-        if($line_number > $this->getTotalCount()) {
+        if ($line_number > $this->getTotalCount()) {
             return;
         }
 
         $file = $this->getLogFile();
 
-        if(!$file) {
+        if (!$file) {
             return;
         }
 
@@ -78,7 +75,7 @@ class BaseController extends Controller
 
         $file->seek($line_number);
 
-        if($file->valid()) {
+        if ($file->valid()) {
             return $file->getCurrentLine();
         }
 
@@ -91,15 +88,10 @@ class BaseController extends Controller
 
         $log_file = sprintf('%s/logs/%s.log', $kernel->getRootDir(), $kernel->getEnvironment());
 
-        if(!file_exists($log_file)) {
+        if (!file_exists($log_file)) {
             return;
         }
 
         return $log_file;
     }
-
-
-
-
-
 }
