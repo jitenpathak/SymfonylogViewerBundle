@@ -19,7 +19,7 @@ class ViewerController extends BaseController
 
     protected function getLimit(Request $request)
     {
-        return min(100, $request->query->get('length', 10));
+        return min(100, $request->query->get('length', 50));
     }
 
     protected function getOffset(Request $request)

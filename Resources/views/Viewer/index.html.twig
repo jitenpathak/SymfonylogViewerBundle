@@ -15,8 +15,14 @@
     <p>Total count: {{ count }}</p>
     <ul class="pagination pull-right" style="margin:0px;padding:0px;margin-bottom:-5em;">
         {% if count > 0 %}
-            {% for i in range(1, count, 10) %}
-                <li><a href="{{ path('symofny_log_view', {start: i}) }}">{{ loop.index }}</a></li>
+            {% if app.request.get('start') %}
+                {% set c = app.request.get('start') %}
+            {% else %}
+                {% set c = 0 %}
+            {% endif %}
+
+            {% for i in range(c, (c+500), 50) %}
+                <li><a href="{{ path('symofny_log_view', {start: i + c}) }}">{{ loop.index + c }}</a></li>
             {% endfor %}
         {% endif %}
     </ul>
@@ -32,12 +38,15 @@
         <tbody>
         {% for log in logs %}
             {% set css_class = log.level in ['CRITICAL', 'ERROR', 'ALERT', 'EMERGENCY'] ? 'danger' : log.level in ['NOTICE', 'WARNING'] ? 'warning' : log.level in ['INFO'] ? 'info' %}
-            <tr class="{{ css_class }}">
-                <td style="width: 12em;">{{ log.datetime }}</td>
-                <td style="width: 9em;">{{ log.channel }}</td>
-                <td style="width: 3em;">{{ log.level }}</td>
-                <td class="code" style="width: 55em;">{{ log.message }}</td>
-            </tr>
+            {% if log.level in ['INFO'] %}
+            {% else %}
+                <tr class="{{ css_class }}">
+                    <td style="width: 12em;">{{ log.datetime }}</td>
+                    <td style="width: 9em;">{{ log.channel }}</td>
+                    <td style="width: 3em;">{{ log.level }}</td>
+                    <td class="code" style="width: 55em;">{{ log.message }}</td>
+                </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
